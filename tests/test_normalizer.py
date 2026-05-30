@@ -54,6 +54,7 @@ def test_normalize_sorts_spec_last():
     files = [_make("src/main.spec.ts"), _make("src/main.ts")]
     result = normalize(files)
     assert result[0].path == "src/main.ts"
+    assert result[1].path == "src/main.spec.ts"
 
 def test_normalize_caps_at_max_files():
     files = [_make(f"src/file{i}.ts") for i in range(100)]

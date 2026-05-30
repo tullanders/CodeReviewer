@@ -5,6 +5,9 @@ from code_reviewer.retrievers.base import CodeFile
 
 INCLUDE_EXTENSIONS = {".ts", ".tsx", ".cs", ".cpp", ".h", ".hpp", ".py"}
 EXCLUDE_DIRS = {"node_modules", "bin", "obj", ".git", "dist", "build", "__pycache__"}
+# MAX_FILE_SIZE_KB is exported for use by retrievers (GitHub, GDrive, OneDrive) to
+# filter files before fetching content. CodeFile has no size field, so normalize()
+# cannot apply this filter — it is enforced at fetch time by each retriever.
 MAX_FILE_SIZE_KB = 100
 MAX_FILES = 50
 
