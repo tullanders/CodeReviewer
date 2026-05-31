@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python*)",
+      "Bash(pip*)",
+      "Bash(git*)",
+      "Bash(touch*)",
+      "Bash(mkdir*)",
+      "Bash(cp*)",
+      "Bash(mv*)",
+      "Bash(cat*)",
+      "Bash(echo*)",
+      "Write(**/*.py)",
+      "Write(**/*.md)",
+      "Write(**/*.json)",
+      "Write(**/.env.example)",
+      "Read(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(sudo*)"
+    ]
+  }
+}
