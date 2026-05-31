@@ -22,7 +22,8 @@ def test_detect_language_hpp():
     assert detect_language("include/utils.hpp") == "cpp"
 
 def test_detect_language_python():
-    assert detect_language("scripts/helper.py") == "python"
+    # .py is not a supported review language (no prompt file) so it maps to unknown
+    assert detect_language("scripts/helper.py") == "unknown"
 
 def test_detect_language_unknown():
     assert detect_language("README.md") == "unknown"

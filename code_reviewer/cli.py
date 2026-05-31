@@ -18,11 +18,18 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    result = agent.review(
-        url=args.url,
-        kandidat_id=args.kandidat,
-        prompt_path=args.prompt,
-    )
+    try:
+        result = agent.review(
+            url=args.url,
+            kandidat_id=args.kandidat,
+            prompt_path=args.prompt,
+        )
+    except (ValueError, RuntimeError) as e:
+        print(f"Fel: {e}", file=sys.stderr)
+        sys.exit(1)
+    except json.JSONDecodeError:
+        print("Fel: Claude returnerade ogiltig JSON.", file=sys.stderr)
+        sys.exit(1)
 
     output_json = json.dumps(result, ensure_ascii=False, indent=2)
 

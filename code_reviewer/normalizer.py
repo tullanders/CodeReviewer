@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from code_reviewer.retrievers.base import CodeFile
 
-INCLUDE_EXTENSIONS = {".ts", ".tsx", ".cs", ".cpp", ".h", ".hpp", ".py"}
+INCLUDE_EXTENSIONS = {".ts", ".tsx", ".cs", ".cpp", ".h", ".hpp"}
 EXCLUDE_DIRS = {"node_modules", "bin", "obj", ".git", "dist", "build", "__pycache__"}
 # MAX_FILE_SIZE_KB is exported for use by retrievers (GitHub, GDrive, OneDrive) to
 # filter files before fetching content. CodeFile has no size field, so normalize()
@@ -22,7 +22,6 @@ _EXT_TO_LANG: dict[str, str] = {
     ".cpp": "cpp",
     ".h": "cpp",
     ".hpp": "cpp",
-    ".py": "python",
 }
 
 
