@@ -3,6 +3,8 @@ import json
 import os
 import sys
 
+import requests
+
 from code_reviewer import agent
 
 
@@ -26,6 +28,15 @@ def main() -> None:
         )
     except (ValueError, RuntimeError) as e:
         print(f"Fel: {e}", file=sys.stderr)
+        sys.exit(1)
+    except requests.HTTPError as e:
+        status = e.response.status_code if e.response is not None else "?"
+        if status == 401:
+            print("Fel: 401 Unauthorized — privat repo? Sätt GITHUB_TOKEN i .env.", file=sys.stderr)
+        elif status == 404:
+            print(f"Fel: 404 Not Found — kontrollera URL:en.", file=sys.stderr)
+        else:
+            print(f"Fel: HTTP {status} — {e}", file=sys.stderr)
         sys.exit(1)
     except json.JSONDecodeError:
         print("Fel: Claude returnerade ogiltig JSON.", file=sys.stderr)
