@@ -34,20 +34,25 @@ class OneDriveRetriever(BaseRetriever):
 
     def _list_items(self, token: str, item_url: str) -> list[dict]:
         headers = {"Authorization": f"Bearer {token}"}
-        resp = requests.get(item_url, headers=headers, timeout=30)
-        resp.raise_for_status()
-        items = resp.json().get("value", [])
-
         result: list[dict] = []
-        for item in items:
-            if "folder" in item:
-                child_url = (
-                    f"{_GRAPH}/drives/{item['parentReference']['driveId']}"
-                    f"/items/{item['id']}/children"
-                )
-                result.extend(self._list_items(token, child_url))
-            else:
-                result.append(item)
+        next_url: str | None = item_url
+
+        while next_url:
+            resp = requests.get(next_url, headers=headers, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
+
+            for item in data.get("value", []):
+                if "folder" in item:
+                    drive_id = item.get("parentReference", {}).get("driveId")
+                    if drive_id:
+                        child_url = f"{_GRAPH}/drives/{drive_id}/items/{item['id']}/children"
+                        result.extend(self._list_items(token, child_url))
+                else:
+                    result.append(item)
+
+            next_url = data.get("@odata.nextLink")
+
         return result
 
     def fetch(self, url: str) -> list[CodeFile]:
