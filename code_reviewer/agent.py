@@ -83,6 +83,6 @@ def review(
         "kandidat_id": kandidat_id,
         "url": url,
         "språk": language,
-        "tidsstämpel": datetime.datetime.utcnow().isoformat() + "Z",
+        "tidsstämpel": datetime.datetime.now(datetime.UTC).isoformat().replace("+00:00", "Z"),
         **result,
     }
