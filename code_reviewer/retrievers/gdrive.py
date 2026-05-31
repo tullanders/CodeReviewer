@@ -1,5 +1,6 @@
 import io
 import re
+from pathlib import Path
 
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
@@ -8,7 +9,6 @@ from google.oauth2 import service_account
 from code_reviewer import config
 from code_reviewer.normalizer import INCLUDE_EXTENSIONS, MAX_FILE_SIZE_KB, MAX_FILES, detect_language
 from code_reviewer.retrievers.base import BaseRetriever, CodeFile
-from pathlib import Path
 
 _FOLDER_ID_RE = re.compile(r"folders/([a-zA-Z0-9_-]+)")
 _FOLDER_MIME = "application/vnd.google-apps.folder"
@@ -42,6 +42,8 @@ class GoogleDriveRetriever(BaseRetriever):
             for item in resp.get("files", []):
                 if item["mimeType"] == _FOLDER_MIME:
                     results.extend(self._list_files(service, item["id"]))
+                elif item["mimeType"].startswith("application/vnd.google-apps."):
+                    continue  # Skip Google Workspace files (Docs, Sheets, etc.) — no binary content
                 else:
                     results.append(item)
             page_token = resp.get("nextPageToken")
