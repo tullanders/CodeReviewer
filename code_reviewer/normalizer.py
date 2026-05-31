@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 from collections import Counter
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from code_reviewer.retrievers.base import CodeFile
+if TYPE_CHECKING:
+    from code_reviewer.retrievers.base import CodeFile
 
 INCLUDE_EXTENSIONS = {".ts", ".tsx", ".cs", ".cpp", ".h", ".hpp", ".py"}
 EXCLUDE_DIRS = {"node_modules", "bin", "obj", ".git", "dist", "build", "__pycache__"}
