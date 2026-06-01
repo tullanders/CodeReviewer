@@ -23,7 +23,7 @@ Ett CLI-verktyg som hämtar kandidaters kod från GitHub, Google Drive eller One
 uv tool install .
 
 # Kör
-code-reviewer --url "https://github.com/user/repo" --kandidat abc123
+code-reviewer --url "https://github.com/user/repo" --candidate abc123
 ```
 
 ---
@@ -165,7 +165,7 @@ code-reviewer --url "https://drive.google.com/drive/folders/XYZ" --prompt code_r
 # Med kandidat-ID och output-fil
 code-reviewer \
   --url "https://github.com/user/repo" \
-  --kandidat "abc123" \
+  --candidate "abc123" \
   --output output/abc123.json
 ```
 

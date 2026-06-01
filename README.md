@@ -7,7 +7,7 @@ Automatically review candidate code from GitHub, Google Drive, or OneDrive using
 Point `code-reviewer` at a candidate's repository or shared folder. It fetches the code, sends it to Claude with a language-specific review prompt, and returns a JSON report ready to use as interview prep.
 
 ```bash
-code-reviewer --url "https://github.com/candidate/submission" --kandidat abc123
+code-reviewer --url "https://github.com/candidate/submission" --candidate abc123
 ```
 
 ```json
@@ -96,7 +96,7 @@ MS_CLIENT_SECRET=...
 code-reviewer --url "https://github.com/candidate/repo"
 
 # GitHub (private repo, needs GITHUB_TOKEN)
-code-reviewer --url "https://github.com/candidate/private-repo" --kandidat abc123
+code-reviewer --url "https://github.com/candidate/private-repo" --candidate abc123
 
 # Google Drive folder
 code-reviewer --url "https://drive.google.com/drive/folders/FOLDER_ID"
@@ -106,7 +106,7 @@ code-reviewer --url "https://onedrive.live.com/?id=..."
 
 # Save report to file
 code-reviewer --url "https://github.com/candidate/repo" \
-  --kandidat abc123 \
+  --candidate abc123 \
   --output output/abc123.json
 
 # Use a custom review prompt
@@ -119,7 +119,7 @@ code-reviewer --url "https://github.com/candidate/repo" \
 | Flag          | Description                                       |
 |---------------|---------------------------------------------------|
 | `--url`       | Repository or shared folder URL (required)        |
-| `--kandidat`  | Candidate ID — included in the JSON report        |
+| `--candidate` | Candidate ID — included in the JSON report        |
 | `--prompt`    | Path to a custom `.md` review prompt              |
 | `--output`    | Write report to this file instead of stdout       |
 
