@@ -6,6 +6,7 @@ from code_reviewer.retrievers.base import CodeFile
 from code_reviewer.retrievers.github import GitHubRetriever
 from code_reviewer.retrievers.gdrive import GoogleDriveRetriever
 from code_reviewer.retrievers.onedrive import OneDriveRetriever
+from code_reviewer.retrievers.filesystem import FilesystemRetriever
 
 
 def test_route_github():
@@ -22,6 +23,10 @@ def test_route_onedrive():
 
 def test_route_sharepoint():
     assert isinstance(route("https://myorg.sharepoint.com/sites/xyz"), OneDriveRetriever)
+
+
+def test_route_filesystem():
+    assert isinstance(route("file:///Users/anders/repo"), FilesystemRetriever)
 
 
 def test_route_unknown_raises():

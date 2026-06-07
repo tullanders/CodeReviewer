@@ -1,10 +1,9 @@
 import re
-from pathlib import Path
 
 import requests
 
 from code_reviewer import config
-from code_reviewer.normalizer import EXCLUDE_DIRS, INCLUDE_EXTENSIONS, MAX_FILE_SIZE_KB, MAX_FILES, detect_language
+from code_reviewer.normalizer import MAX_FILES, detect_language, should_include
 from code_reviewer.retrievers.base import BaseRetriever, CodeFile
 
 _URL_RE = re.compile(r"(?<![.\w])github\.com/([^/]+)/([^/]+?)(?:\.git)?(?:/|$)")
@@ -16,14 +15,6 @@ class GitHubRetriever(BaseRetriever):
         if not m:
             raise ValueError(f"Kan inte parsa GitHub-URL: {url}")
         return m.group(1), m.group(2)
-
-    def _should_include(self, path: str, size: int) -> bool:
-        parts = Path(path).parts
-        if any(part in EXCLUDE_DIRS for part in parts[:-1]):
-            return False
-        if Path(path).suffix not in INCLUDE_EXTENSIONS:
-            return False
-        return size <= MAX_FILE_SIZE_KB * 1024
 
     def fetch(self, url: str) -> list[CodeFile]:
         owner, repo = self._parse_url(url)
@@ -42,7 +33,7 @@ class GitHubRetriever(BaseRetriever):
         for item in resp.json().get("tree", []):
             if item["type"] != "blob":
                 continue
-            if not self._should_include(item["path"], item.get("size", 0)):
+            if not should_include(item["path"], item.get("size", 0)):
                 continue
             if len(files) >= MAX_FILES:
                 break

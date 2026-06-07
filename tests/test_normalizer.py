@@ -1,6 +1,6 @@
 import pytest
 from code_reviewer.retrievers.base import CodeFile
-from code_reviewer.normalizer import detect_language, normalize, detect_majority_language
+from code_reviewer.normalizer import detect_language, normalize, detect_majority_language, should_include
 
 
 def test_detect_language_ts():
@@ -27,6 +27,19 @@ def test_detect_language_python():
 
 def test_detect_language_unknown():
     assert detect_language("README.md") == "unknown"
+
+
+def test_should_include_valid_ts():
+    assert should_include("src/index.ts", 500) is True
+
+def test_should_include_excludes_node_modules():
+    assert should_include("node_modules/lodash/index.ts", 500) is False
+
+def test_should_include_excludes_large_files():
+    assert should_include("src/index.ts", 200 * 1024) is False
+
+def test_should_include_excludes_unknown_extension():
+    assert should_include("README.md", 100) is False
 
 
 def _make(path: str, lang: str = "typescript") -> CodeFile:
