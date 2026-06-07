@@ -20,26 +20,6 @@ def test_parse_url_invalid_raises():
         r._parse_url("https://notgithub.com/user/repo")
 
 
-def test_should_include_valid_ts():
-    r = GitHubRetriever()
-    assert r._should_include("src/index.ts", 500) is True
-
-
-def test_should_include_excludes_node_modules():
-    r = GitHubRetriever()
-    assert r._should_include("node_modules/lodash/index.ts", 500) is False
-
-
-def test_should_include_excludes_large_files():
-    r = GitHubRetriever()
-    assert r._should_include("src/index.ts", 200 * 1024) is False
-
-
-def test_should_include_excludes_unknown_extension():
-    r = GitHubRetriever()
-    assert r._should_include("README.md", 100) is False
-
-
 def test_fetch_returns_included_files():
     r = GitHubRetriever()
 

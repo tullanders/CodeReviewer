@@ -44,6 +44,10 @@ def _should_include(path: str) -> bool:
     return Path(path).suffix in INCLUDE_EXTENSIONS
 
 
+def should_include(path: str, size: int) -> bool:
+    return _should_include(path) and size <= MAX_FILE_SIZE_KB * 1024
+
+
 def normalize(files: list[CodeFile]) -> list[CodeFile]:
     included = [f for f in files if _should_include(f.path)]
     included.sort(key=lambda f: (1 if _is_test_file(f.path) else 0, f.path))
