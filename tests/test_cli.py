@@ -23,7 +23,7 @@ _MOCK_RESULT = {
 
 
 def test_cli_prints_json_to_stdout(capsys):
-    with patch("sys.argv", ["code-reviewer", "--url", "https://github.com/user/repo", "--kandidat", "abc123"]):
+    with patch("sys.argv", ["code-reviewer", "--url", "https://github.com/user/repo", "--candidate", "abc123"]):
         with patch("code_reviewer.agent.review", return_value=_MOCK_RESULT):
             main()
     captured = capsys.readouterr()
