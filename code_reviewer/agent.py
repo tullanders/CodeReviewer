@@ -8,6 +8,7 @@ import anthropic
 from code_reviewer import config
 from code_reviewer.normalizer import detect_majority_language, normalize
 from code_reviewer.retrievers.base import BaseRetriever, CodeFile
+from code_reviewer.retrievers.filesystem import FilesystemRetriever
 from code_reviewer.retrievers.gdrive import GoogleDriveRetriever
 from code_reviewer.retrievers.github import GitHubRetriever
 from code_reviewer.retrievers.onedrive import OneDriveRetriever
@@ -26,6 +27,8 @@ def route(url: str) -> BaseRetriever:
         return GoogleDriveRetriever()
     if "onedrive.live.com" in url or "sharepoint.com" in url:
         return OneDriveRetriever()
+    if url.startswith("file://"):
+        return FilesystemRetriever()
     raise ValueError(f"Okänd URL-typ: {url}")
 
 

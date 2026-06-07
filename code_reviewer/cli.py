@@ -13,7 +13,7 @@ def main() -> None:
         prog="code-reviewer",
         description="Automatisk kodgranskning av rekryteringskandidater via Claude API",
     )
-    parser.add_argument("--url", required=True, help="GitHub/Google Drive/OneDrive URL")
+    parser.add_argument("--url", required=True, help="GitHub/Google Drive/OneDrive URL eller lokal sökväg (file:///abs/sökväg)")
     parser.add_argument("--candidate", default=None, metavar="ID", help="Kandidat-ID i output")
     parser.add_argument("--prompt", default=None, metavar="FIL", help="Sökväg till egen promptfil (.md)")
     parser.add_argument("--output", default=None, metavar="FIL", help="Sökväg till output JSON-fil (default: stdout)")
